@@ -9,6 +9,7 @@ Paging is an approach where the virtual address space is partitioned into fixed-
 At any given time, each page is either mapped to a frame in the physical memory or is stored in the hard drive. When a process tries to access a virtual memory address in a page that is not in the physical memory, that page must be brought into the physical memory (swapped in). If there are no unused frames, another page must be evicted from the physical memory (swapped out).
 The mapping between pages and frames is done using page tables.
 The naïve implementation will have a big table where the number in the p row is the index of the frame to which the p page is mapped. 
+
 Consider the next diagram of the naïve implementation: 
 
 ![Screenshot 2022-05-23 174955](https://user-images.githubusercontent.com/64755588/169846535-2b99aaa9-3fd6-43e0-9122-e803234d05a5.png)
@@ -27,6 +28,7 @@ This effectively separates the translation into multiple steps. These tables res
 Each row of the table points to a frame that contains either the next layer (the next table), or the relevant page itself (if it’s the last, i.e., the lowest, layer).
 Each table can only contain a small number of rows, so there are only so many bits it can translate on its own, log2(number_of_rows) bits to be precise.
 In total the page tables are supposed to translate log2(virtual_memory_size) - log2(page_size) bits, so the depth of the page tables tree must be: ceil((log2(virtual_memory_size) - log2(page_size)) / log2(number_of_rows)). 
+
 Below is an example of address translation using a tree with 2 layers of tables.
 
 ![somi](https://user-images.githubusercontent.com/64755588/169846845-d56fe7bf-9e2f-4d0d-b794-05bf6c8c1c32.png)
